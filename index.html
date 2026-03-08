@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Copper Brief — TSXV LIFE Financing Portal</title>
+  <meta name="description" content="The TSXV LIFE Financing Portal — real-time deal tracker, CEO interviews, and investment research for junior mining investors."/>
+  <link rel="stylesheet" href="shared.css"/>
+  <style>
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      padding-top: 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-bottom: 80px;
+      padding-left: 48px;
+      padding-right: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 10%;
+      right: -5%;
+      width: 55%;
+      height: 60%;
+      background: radial-gradient(ellipse at center, rgba(184,115,51,0.045) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    /* vertical rule left edge */
+    .hero-rule {
+      position: absolute;
+      left: 48px;
+      top: 80px;
+      bottom: 80px;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--copper) 25%, var(--copper) 75%, transparent);
+      opacity: 0.12;
+    }
+
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: 22px;
+      animation: fadeUp 0.65s ease both;
+    }
+
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(70px, 10.5vw, 136px);
+      line-height: 0.88;
+      letter-spacing: 1px;
+      max-width: 860px;
+      animation: fadeUp 0.65s 0.07s ease both;
+    }
+
+    .hero-sub {
+      margin-top: 24px;
+      font-size: 14px;
+      color: var(--text);
+      max-width: 480px;
+      line-height: 1.8;
+      animation: fadeUp 0.65s 0.14s ease both;
+    }
+
+    .hero-actions {
+      margin-top: 36px;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+      animation: fadeUp 0.65s 0.21s ease both;
+    }
+
+    /* TICKER */
+    /* already in shared.css */
+
+    /* TWO PILLARS */
+    .pillars {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 1px solid var(--border);
+    }
+
+    .pillar {
+      padding: 52px 48px;
+      border-right: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    .pillar:last-child { border-right: none; }
+    .pillar:hover { background: var(--surface); }
+
+    .pillar-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 56px;
+      line-height: 1;
+      color: var(--copper);
+      opacity: 0.18;
+      margin-bottom: 18px;
+    }
+
+    .pillar-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    .pillar-body {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.8;
+      margin-bottom: 22px;
+    }
+
+    .pillar-cta {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--copper);
+      transition: opacity 0.15s;
+    }
+    .pillar-cta:hover { opacity: 0.7; }
+
+    /* LIFE EXPLAINER STRIP */
+    .life-strip {
+      border-top: 1px solid var(--border);
+      background: var(--black);
+      padding: 0;
+    }
+    .life-strip-header {
+      padding: 44px 48px 0;
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .life-strip-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 1px;
+      color: var(--white);
+    }
+    .life-strip-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .life-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--border);
+      margin-top: 28px;
+    }
+    .life-card {
+      padding: 32px 48px 36px;
+      border-right: 1px solid var(--border);
+      position: relative;
+    }
+    .life-card:last-child { border-right: none; }
+    .life-card-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--copper);
+      margin-bottom: 14px;
+      display: block;
+    }
+    .life-card-heading {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+    .life-card-body {
+      font-size: 12px;
+      color: var(--text);
+      line-height: 1.85;
+    }
+    .life-card-body strong {
+      color: var(--white);
+      font-weight: 500;
+    }
+    .life-strip-footer {
+      padding: 20px 48px 36px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .life-strip-cta {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--copper);
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .life-strip-cta:hover { opacity: 0.7; }
+    .life-strip-divider {
+      width: 1px;
+      height: 12px;
+      background: var(--border);
+    }
+
+    /* LATEST FILING */
+    .latest-section {
+      padding: 56px 48px;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .latest-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .latest-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 38px;
+      letter-spacing: 1px;
+    }
+
+    .preview-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .preview-table th {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      font-weight: 400;
+    }
+    .preview-table th:first-child { padding-left: 0; }
+    .preview-table td {
+      padding: 14px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    .preview-table td:first-child { padding-left: 0; }
+    .preview-table tbody tr:hover { background: rgba(184,115,51,0.03); }
+
+    .td-company { font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; color: var(--white); }
+    .td-mono    { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text); }
+
+    .status-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: var(--green);
+    }
+    .status-live::before {
+      content: '';
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--green);
+      display: inline-block;
+    }
+
+    .more-link td {
+      padding: 14px 0;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .more-link td a {
+      color: var(--copper);
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .more-link td a:hover { opacity: 0.7; }
+
+    @media (max-width: 768px) {
+      .hero { padding: 90px 20px 64px; }
+      .hero-rule { left: 20px; }
+      .pillars { grid-template-columns: 1fr; }
+      .pillar { border-right: none; border-bottom: 1px solid var(--border); padding: 40px 20px; }
+      .life-strip-header { padding: 36px 20px 0; }
+      .life-strip-footer { padding: 16px 20px 28px; }
+      .life-cards { grid-template-columns: 1fr; }
+      .life-card { border-right: none; border-bottom: 1px solid var(--border); padding: 28px 20px; }
+      .latest-section { padding: 40px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">COPPER<span class="accent">.</span>BRIEF</a>
+  <ul class="nav-links">
+    <li><a href="tracker.html">LIFE Tracker</a></li>
+    <li><a href="warrants.html">Warrants</a></li>
+    <li><a href="warrants.html">Warrants</a></li>
+    <li><a href="interviews.html">Interviews</a></li>
+    <li><a href="learn.html">Learn</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="about.html" class="nav-about">About</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-rule"></div>
+
+  <span class="hero-eyebrow">TSXV LIFE Financing Portal</span>
+  <h1>WHERE THE<br>DEAL FLOW<br>LIVES.</h1>
+  <p class="hero-sub">
+    Canada's only dedicated LIFE financing portal. Real-time deal flow, CEO interviews, and capital markets research — everything retail investors need to access TSXV mining raises.
+  </p>
+  <div class="hero-actions">
+    <a href="tracker.html" class="btn-primary">View LIFE Tracker</a>
+    <a href="interviews.html" class="btn-outline">Watch Interviews →</a>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-bar">
+  <div class="ticker-track">
+    <span class="ticker-item"><span class="ticker-dot"></span>LIFE Filings</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>TSXV</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Copper</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Nickel</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Zinc</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Warrant Intelligence</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>CEO Interviews</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>SEDAR+</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Base Metals</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Private Placements</span>
+    <!-- duplicate -->
+    <span class="ticker-item"><span class="ticker-dot"></span>LIFE Filings</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>TSXV</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Copper</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Nickel</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Zinc</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Warrant Intelligence</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>CEO Interviews</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>SEDAR+</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Base Metals</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Private Placements</span>
+  </div>
+</div>
+
+<!-- PILLARS -->
+<div class="pillars">
+  <div class="pillar">
+    <div class="pillar-num">01</div>
+    <div class="pillar-title">LIFE Financing Tracker</div>
+    <p class="pillar-body">Every Listed Issuer Financing Exemption filing on the TSXV, tracked weekly from SEDAR+. Offering date, price per unit, warrant terms, lead broker — all in one place.</p>
+    <a href="tracker.html" class="pillar-cta">View Tracker →</a>
+  </div>
+  <div class="pillar">
+    <div class="pillar-num">02</div>
+    <div class="pillar-title">Videos &amp; Research</div>
+    <p class="pillar-body">CEO interviews, company breakdowns, and investment research on TSXV mining companies — focused on capital structure, project fundamentals, and upcoming catalysts.</p>
+    <a href="interviews.html" class="pillar-cta">Watch Videos →</a>
+  </div>
+</div>
+
+<!-- LIFE EXPLAINER STRIP -->
+<div class="life-strip">
+  <div class="life-strip-header">
+    <div class="life-strip-title">What is a LIFE Financing?</div>
+    <span class="life-strip-sub">Listed Issuer Financing Exemption</span>
+  </div>
+  <div class="life-cards">
+    <div class="life-card">
+      <span class="life-card-num">01 — What it is</span>
+      <div class="life-card-heading">A public offering without a prospectus</div>
+      <p class="life-card-body">The Listed Issuer Financing Exemption (LIFE) is a Canadian regulation that lets <strong>listed companies raise capital directly from the public</strong> using a short offering document instead of a full prospectus. It's faster and cheaper for companies — and it opens the door for retail investors to access deals that previously required accredited investor status.</p>
+    </div>
+    <div class="life-card">
+      <span class="life-card-num">02 — Who can invest</span>
+      <div class="life-card-heading">Any retail investor. No accreditation needed.</div>
+      <p class="life-card-body">Unlike most private placements, <strong>LIFE financings are open to all Canadian investors</strong> — not just institutions and accredited investors. You subscribe through any registered dealer at the offering price. Shares are typically issued with <strong>no hold period</strong>, meaning they're freely tradeable the moment the deal closes.</p>
+    </div>
+    <div class="life-card">
+      <span class="life-card-num">03 — The warrant angle</span>
+      <div class="life-card-heading">Many deals include warrants — free upside on top</div>
+      <p class="life-card-body">Many LIFE deals are structured as <strong>units: one share + a half or full warrant</strong>. A warrant gives you the right to buy additional shares at a fixed price (the strike) for 12–36 months. If the stock trades above the strike, your warrant has real value. This is why tracking deal structure matters — <strong>the warrant terms define the upside</strong>.</p>
+    </div>
+  </div>
+  <div class="life-strip-footer">
+    <a href="learn.html" class="life-strip-cta">Full LIFE Financing Guide →</a>
+    <div class="life-strip-divider"></div>
+    <a href="tracker.html" class="life-strip-cta">View Current Filings →</a>
+    <div class="life-strip-divider"></div>
+    <a href="mailto:cooper@minersmedia.com?subject=Deal Access Enquiry" class="life-strip-cta">Enquire About Access →</a>
+  </div>
+</div>
+
+<!-- LATEST FILING PREVIEW -->
+<div class="latest-section">
+  <div class="latest-header">
+    <div>
+      <span class="section-label">Most Recent</span>
+      <div class="latest-title">LATEST FILING</div>
+    </div>
+    <a href="tracker.html" class="btn-outline" style="font-size:10px; padding:10px 18px;">Full Tracker →</a>
+  </div>
+
+  <table class="preview-table">
+    <thead>
+      <tr>
+        <th>Company</th>
+        <th>Ticker</th>
+        <th>Commodity</th>
+        <th>Price / Unit</th>
+        <th>Warrants</th>
+        <th>Total Raise</th>
+        <th>Status</th>
+        <th>Offering Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- UPDATE TOP ROW EACH MONDAY -->
+      <tr>
+        <td class="td-company">Sirios Resources</td>
+        <td><span class="badge-ticker">SOI</span></td>
+        <td><span class="badge-commodity">Gold</span></td>
+        <td class="td-mono">$0.20–$0.27</td>
+        <td><span class="warrant-yes" style="font-family:'DM Mono',monospace;font-size:10px;color:var(--green);background:rgba(61,153,112,0.1);padding:3px 7px;">Yes</span></td>
+        <td class="td-mono">$20.00M</td>
+        <td><span class="status-live">Live</span></td>
+        <td class="td-mono">02 Mar 26</td>
+      </tr>
+      <tr>
+        <td class="td-company">Excellon Resources</td>
+        <td><span class="badge-ticker">EXN</span></td>
+        <td><span class="badge-commodity">Silver/Lead/Zinc</span></td>
+        <td class="td-mono">$0.60</td>
+        <td><span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);">No</span></td>
+        <td class="td-mono">$10.00M</td>
+        <td><span class="status-live">Live</span></td>
+        <td class="td-mono">02 Mar 26</td>
+      </tr>
+      <tr>
+        <td class="td-company">Group Eleven Resources</td>
+        <td><span class="badge-ticker">ZNG</span></td>
+        <td><span class="badge-commodity">Zinc/Lead/Silver</span></td>
+        <td class="td-mono">$0.90</td>
+        <td><span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);">No</span></td>
+        <td class="td-mono">$9.00M</td>
+        <td><span class="status-live">Live</span></td>
+        <td class="td-mono">02 Mar 26</td>
+      </tr>
+      <tr class="more-link">
+        <td colspan="8"><a href="tracker.html">View all 7 filings tracked →</a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<footer>
+  <div class="footer-logo">COPPER<span class="accent">.</span>BRIEF</div>
+  <ul class="footer-links">
+    <li><a href="tracker.html">LIFE Tracker</a></li>
+    <li><a href="warrants.html">Warrants</a></li>
+    <li><a href="warrants.html">Warrants</a></li>
+    <li><a href="interviews.html">Interviews</a></li>
+    <li><a href="learn.html">Learn</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Copper Brief</div>
+</footer>
+
+</body>
+</html>

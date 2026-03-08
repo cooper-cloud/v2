@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mining Videos — Copper Brief</title>
+  <meta name="description" content="CEO interviews, company breakdowns, and investment research on TSXV-listed mining companies — focused on capital structure, project fundamentals, and upcoming catalysts."/>
+  <link rel="stylesheet" href="shared.css"/>
+  <style>
+    .page-wrap { padding-top: 60px; }
+
+    .page-header {
+      padding: 52px 48px 44px;
+      border-bottom: 1px solid var(--border);
+    }
+    .page-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(48px, 6vw, 72px);
+      letter-spacing: 1px;
+      line-height: 0.9;
+      margin: 8px 0 14px;
+    }
+    .page-sub {
+      font-size: 13px;
+      color: var(--text);
+      max-width: 500px;
+      line-height: 1.75;
+    }
+
+    /* GRID */
+    .interviews-section { padding: 48px; }
+
+    .interviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 2px;
+    }
+
+    .interview-tile {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.15s;
+    }
+    .interview-tile:hover { border-color: rgba(184,115,51,0.22); }
+
+    .tile-embed {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: var(--surface2);
+    }
+    .tile-embed iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .tile-body {
+      padding: 20px 22px 22px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .tile-meta { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+    .tile-company {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 26px;
+      letter-spacing: 0.5px;
+      color: var(--white);
+      margin-bottom: 4px;
+      line-height: 1.1;
+    }
+    .tile-guest {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .tile-desc {
+      font-size: 12px;
+      color: var(--text);
+      line-height: 1.7;
+      flex: 1;
+      margin-bottom: 16px;
+    }
+    .tile-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--copper);
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .tile-link:hover { opacity: 0.65; }
+
+    /* BOOKING TILE */
+    .booking-tile {
+      background: transparent;
+      border: 1px dashed rgba(184,115,51,0.16);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 32px;
+      text-align: center;
+      text-decoration: none;
+      min-height: 280px;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .booking-tile:hover { border-color: rgba(184,115,51,0.32); background: var(--copper-glow); }
+    .booking-plus {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 64px;
+      color: var(--copper);
+      opacity: 0.2;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .booking-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      letter-spacing: 2px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .booking-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+      max-width: 200px;
+    }
+    .booking-cta {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--copper);
+    }
+
+    /* WHY SECTION */
+    .why-section {
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .why-header { padding: 48px 48px 0; }
+    .why-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(32px, 4vw, 48px);
+      letter-spacing: 1px;
+      margin: 8px 0;
+    }
+    .why-cols {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin-top: 40px;
+    }
+    .why-col {
+      padding: 32px 40px 44px;
+      border-right: 1px solid var(--border);
+    }
+    .why-col:last-child { border-right: none; }
+    .why-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 40px;
+      color: var(--copper);
+      opacity: 0.18;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .why-col-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .why-col-body { font-size: 12px; color: var(--text); line-height: 1.8; }
+
+    @media (max-width: 768px) {
+      .page-header { padding: 40px 20px 32px; }
+      .interviews-section { padding: 32px 20px; }
+      .interviews-grid { grid-template-columns: 1fr; }
+      .why-header { padding: 40px 20px 0; }
+      .why-cols { grid-template-columns: 1fr; }
+      .why-col { border-right: none; border-bottom: 1px solid var(--border); padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">COPPER<span class="accent">.</span>BRIEF</a>
+  <ul class="nav-links">
+    <li><a href="tracker.html">LIFE Tracker</a></li>
+    <li><a href="warrants.html">Warrants</a></li>
+    <li><a href="interviews.html" class="active">Interviews</a></li>
+    <li><a href="learn.html">Learn</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="about.html" class="nav-about">About</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <div class="page-header">
+    <span class="section-label">Video Coverage &amp; Research</span>
+    <h1 class="page-title">MINING<br>VIDEOS</h1>
+    <p class="page-sub">CEO interviews, company overviews, and investment research on TSXV-listed mining companies. Focused on capital structure, project fundamentals, and upcoming catalysts.</p>
+  </div>
+
+  <div class="interviews-section">
+    <div class="interviews-grid">
+
+      <!--
+      ══════════════════════════════════════════
+      HOW TO ADD AN INTERVIEW:
+      Copy one .interview-tile block, paste at
+      the top, update YouTube ID, badges, name,
+      guest, description.
+      ══════════════════════════════════════════
+      -->
+
+      <!-- INTERVIEW 1 -->
+      <div class="interview-tile">
+        <div class="tile-embed">
+          <iframe
+            src="https://www.youtube.com/embed/0KaO8NO7yfw"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="tile-body">
+          <div class="tile-meta">
+            <span class="badge-ticker">XXIX</span>
+            <span class="badge-commodity">Mining</span>
+          </div>
+          <div class="tile-company">TSXV: XXIX</div>
+          <div class="tile-guest">Guy Le Bel — CEO</div>
+          <p class="tile-desc">CEO interview covering project fundamentals, capital structure, and the upcoming exploration program.</p>
+          <a href="https://www.youtube.com/watch?v=0KaO8NO7yfw" target="_blank" rel="noopener" class="tile-link">Watch on YouTube →</a>
+        </div>
+      </div>
+
+      <!-- INTERVIEW 2 -->
+      <div class="interview-tile">
+        <div class="tile-embed">
+          <iframe
+            src="https://www.youtube.com/embed/bK81owxayQc"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="tile-body">
+          <div class="tile-meta">
+            <span class="badge-ticker">HAMR</span>
+            <span class="badge-commodity">Mining</span>
+          </div>
+          <div class="tile-company">TSXV: HAMR</div>
+          <div class="tile-guest">Investment Breakdown</div>
+          <p class="tile-desc">A quick investment breakdown on TSXV-listed HAMR — covering the project thesis, capital structure, and why it's on the radar.</p>
+          <a href="https://www.youtube.com/watch?v=bK81owxayQc" target="_blank" rel="noopener" class="tile-link">Watch on YouTube →</a>
+        </div>
+      </div>
+
+      <!-- VIDEO 3 -->
+      <div class="interview-tile">
+        <div class="tile-embed">
+          <iframe
+            src="https://www.youtube.com/embed/SvceQmTNmes"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="tile-body">
+          <div class="tile-meta">
+            <span class="badge-ticker">TSXV</span>
+            <span class="badge-commodity">Mining</span>
+          </div>
+          <div class="tile-company">Mining Research</div>
+          <div class="tile-guest">Company Overview</div>
+          <p class="tile-desc">TSXV mining company overview — project fundamentals, capital structure, and investment thesis.</p>
+          <a href="https://www.youtube.com/watch?v=SvceQmTNmes" target="_blank" rel="noopener" class="tile-link">Watch on YouTube →</a>
+        </div>
+      </div>
+
+      <!-- VIDEO 4 -->
+      <div class="interview-tile">
+        <div class="tile-embed">
+          <iframe
+            src="https://www.youtube.com/embed/W7Gbm9e72Uk"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="tile-body">
+          <div class="tile-meta">
+            <span class="badge-ticker">TSXV</span>
+            <span class="badge-commodity">Mining</span>
+          </div>
+          <div class="tile-company">Mining Research</div>
+          <div class="tile-guest">Company Overview</div>
+          <p class="tile-desc">TSXV mining company overview — project fundamentals, capital structure, and investment thesis. Update title and description to match video content.</p>
+          <a href="https://www.youtube.com/watch?v=W7Gbm9e72Uk" target="_blank" rel="noopener" class="tile-link">Watch on YouTube →</a>
+        </div>
+      </div>
+
+      <!-- VIDEO 5 -->
+      <div class="interview-tile">
+        <div class="tile-embed">
+          <iframe
+            src="https://www.youtube.com/embed/ooSKEnHDTR8"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="tile-body">
+          <div class="tile-meta">
+            <span class="badge-ticker">TSXV</span>
+            <span class="badge-commodity">Mining</span>
+          </div>
+          <div class="tile-company">Mining Research</div>
+          <div class="tile-guest">Company Overview</div>
+          <p class="tile-desc">TSXV mining company overview — project fundamentals, capital structure, and investment thesis. Update title and description to match video content.</p>
+          <a href="https://www.youtube.com/watch?v=ooSKEnHDTR8" target="_blank" rel="noopener" class="tile-link">Watch on YouTube →</a>
+        </div>
+      </div>
+
+      <!-- BOOKING TILE -->
+      <a href="about.html#book" class="booking-tile">
+        <div class="booking-plus">+</div>
+        <div class="booking-label">Your Company</div>
+        <p class="booking-desc">Mining company? Get in front of active TSXV investors. Book an interview or company breakdown.</p>
+        <span class="booking-cta">Get in Touch →</span>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- WHY SECTION -->
+  <div class="why-section">
+    <div class="why-header">
+      <span class="section-label">For Mining Companies</span>
+      <h2 class="why-title">WHY COMPANIES<br>CHOOSE COPPER BRIEF</h2>
+    </div>
+    <div class="why-cols">
+      <div class="why-col">
+        <div class="why-num">01</div>
+        <div class="why-col-title">Investor Audience</div>
+        <p class="why-col-body">Viewers are active retail investors in junior mining — warrant traders, PP participants, and serious followers of TSXV deal flow. Not casual observers.</p>
+      </div>
+      <div class="why-col">
+        <div class="why-num">02</div>
+        <div class="why-col-title">Capital Markets Focus</div>
+        <p class="why-col-body">Whether a CEO interview or company breakdown, content focuses on what investors actually care about — dilution, warrant overhang, financing strategy, and upcoming catalysts.</p>
+      </div>
+      <div class="why-col">
+        <div class="why-num">03</div>
+        <div class="why-col-title">Permanent Record</div>
+        <p class="why-col-body">Videos live on YouTube and copperbrief.com indefinitely — your capital markets story available to every investor who searches for your company.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-logo">COPPER<span class="accent">.</span>BRIEF</div>
+  <ul class="footer-links">
+    <li><a href="tracker.html">LIFE Tracker</a></li>
+    <li><a href="warrants.html">Warrants</a></li>
+    <li><a href="warrants.html">Warrants</a></li>
+    <li><a href="interviews.html">Interviews</a></li>
+    <li><a href="learn.html">Learn</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Copper Brief</div>
+</footer>
+
+</body>
+</html>

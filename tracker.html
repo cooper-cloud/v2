@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LIFE Financing Tracker — Copper Brief</title>
+  <meta name="description" content="Every Listed Issuer Financing Exemption offering on the TSXV, tracked weekly from SEDAR+."/>
+  <link rel="stylesheet" href="shared.css"/>
+  <style>
+    .page-wrap { padding-top: 60px; min-height: 100vh; }
+
+    /* terminal grid texture */
+    .terminal-bg {
+      background-color: var(--black);
+      background-image:
+        repeating-linear-gradient(rgba(184,115,51,0.012) 0px, transparent 1px, transparent 44px),
+        repeating-linear-gradient(90deg, rgba(184,115,51,0.012) 0px, transparent 1px, transparent 44px);
+    }
+
+    /* HEADER */
+    .tracker-header {
+      padding: 52px 48px 36px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 24px;
+    }
+    .tracker-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(44px, 6vw, 68px);
+      letter-spacing: 1px;
+      line-height: 0.9;
+      margin: 8px 0 14px;
+    }
+    .tracker-desc {
+      font-size: 13px;
+      color: var(--text);
+      max-width: 540px;
+      line-height: 1.75;
+    }
+
+    /* FILTER BAR */
+    .filter-bar {
+      padding: 0 48px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      background: var(--surface);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .filter-bar::-webkit-scrollbar { display: none; }
+
+    .filter-btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 14px 18px;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+    .filter-btn:hover { color: var(--white); }
+    .filter-btn.active { color: var(--white); border-bottom-color: var(--copper); }
+
+    /* TABLE */
+    .table-section { padding: 0 48px 56px; }
+
+    .tracker-table-wrap { overflow-x: auto; }
+
+    .tracker-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1000px;
+    }
+
+    .tracker-table thead tr { border-bottom: 1px solid rgba(255,255,255,0.09); }
+
+    .tracker-table th {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: left;
+      padding: 16px 14px;
+      white-space: nowrap;
+      font-weight: 400;
+    }
+    .tracker-table th:first-child { padding-left: 0; }
+    .tracker-table th:last-child  { padding-right: 0; }
+
+    .tracker-table tbody tr {
+      border-bottom: 1px solid var(--border);
+      height: 54px;
+      transition: background 0.1s;
+    }
+    .tracker-table tbody tr:hover { background: rgba(184,115,51,0.04); }
+    .tracker-table tbody tr.hidden { display: none; }
+
+    .tracker-table td {
+      padding: 0 14px;
+      vertical-align: middle;
+    }
+    .tracker-table td:first-child { padding-left: 0; }
+    .tracker-table td:last-child  { padding-right: 0; }
+
+    .td-company {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--white);
+      white-space: nowrap;
+    }
+    .td-mono { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text); }
+
+    .warrant-yes {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: var(--green);
+      background: rgba(61,153,112,0.1);
+      padding: 3px 7px;
+    }
+    .warrant-no {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: var(--muted);
+    }
+
+    .status-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: var(--green);
+    }
+    .status-live::before {
+      content: '';
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--green);
+      display: inline-block;
+    }
+    .status-closed {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .sedar-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: var(--copper);
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .sedar-link:hover { opacity: 0.65; }
+
+    /* contact CTA cell */
+    .contact-cell {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .contact-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--copper);
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .contact-link:hover { opacity: 0.65; }
+    .contact-link.intro {
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 2px 6px;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .contact-link.intro:hover { border-color: var(--copper-line); color: var(--copper); }
+
+    /* footnote */
+    .table-footnote {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* empty state */
+    .empty-state {
+      padding: 64px 0;
+      text-align: center;
+      display: none;
+    }
+    .empty-state.visible { display: block; }
+    .empty-state p {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    /* EXPLAINER */
+    .explainer {
+      margin: 0 48px 56px;
+      border: 1px solid var(--border);
+    }
+    .explainer-toggle {
+      width: 100%;
+      background: var(--surface);
+      border: none;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .explainer-toggle:hover { background: var(--surface2); }
+    .explainer-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--copper);
+    }
+    .explainer-arrow {
+      font-size: 11px;
+      color: var(--muted);
+      transition: transform 0.2s;
+    }
+    .explainer-toggle.open .explainer-arrow { transform: rotate(180deg); }
+    .explainer-body {
+      display: none;
+      padding: 24px;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 24px;
+    }
+    .explainer-body.open { display: grid; }
+    .explainer-term dt {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: 6px;
+    }
+    .explainer-term dd {
+      font-size: 12px;
+      color: var(--text);
+      line-height: 1.75;
+    }
+
+    @media (max-width: 768px) {
+      .tracker-header { padding: 40px 20px 28px; flex-direction: column; align-items: flex-start; }
+      .filter-bar { padding: 0 20px; }
+      .table-section { padding: 0 20px 40px; }
+      .explainer { margin: 0 20px 40px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">COPPER<span class="accent">.</span>BRIEF</a>
+  <ul class="nav-links">
+    <li><a href="tracker.html" class="active">LIFE Tracker</a></li>
+    <li><a href="warrants.html">Warrants</a></li>
+    <li><a href="interviews.html">Interviews</a></li>
+    <li><a href="learn.html">Learn</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="about.html" class="nav-about">About</a>
+  </div>
+</nav>
+
+<div class="page-wrap terminal-bg">
+
+  <div class="tracker-header">
+    <div>
+      <span class="section-label">Listed Issuer Financing Exemption — TSXV / CSE</span>
+      <h1 class="tracker-title">LIFE FINANCING<br>TRACKER</h1>
+      <p class="tracker-desc">Every LIFE offering filed on SEDAR+ by mining companies on the TSXV. Updated weekly. Data sourced directly from offering documents.</p>
+    </div>
+    <div class="live-indicator">
+      <span class="live-dot"></span>
+      <!-- UPDATE EACH MONDAY -->
+      Week ended 6 Mar 2026
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all"          onclick="filterTable(this)">All</button>
+    <button class="filter-btn"        data-filter="copper"       onclick="filterTable(this)">Copper</button>
+    <button class="filter-btn"        data-filter="gold"         onclick="filterTable(this)">Gold</button>
+    <button class="filter-btn"        data-filter="silver"       onclick="filterTable(this)">Silver</button>
+    <button class="filter-btn"        data-filter="base-metals"  onclick="filterTable(this)">Base Metals</button>
+    <button class="filter-btn"        data-filter="lithium"      onclick="filterTable(this)">Lithium</button>
+    <button class="filter-btn"        data-filter="other"        onclick="filterTable(this)">Other</button>
+  </div>
+
+  <div class="table-section">
+    <div class="tracker-table-wrap">
+      <table class="tracker-table" id="trackerTable">
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Ticker</th>
+            <th>Commodity</th>
+            <th>Exchange</th>
+            <th>Offering Date</th>
+            <th>Closing Date</th>
+            <th>Shares</th>
+            <th>Price / Unit</th>
+            <th>Warrant Price</th>
+            <th>Warrant Term</th>
+            <th>Total Raise</th>
+            <th>Lead Broker</th>
+            <th>Status</th>
+            <th>SEDAR+</th>
+            <th>Connect</th>
+          </tr>
+        </thead>
+        <tbody id="trackerBody">
+
+          <!-- MOST RECENT FIRST — add new rows at top each week -->
+<!-- Scandium Canada — 03 Mar 2026 -->
+          <tr data-commodity="other">
+            <td class="td-company">Scandium Canada</td>
+            <td><span class="badge-ticker">SCD</span></td>
+            <td><span class="badge-commodity">Scandium</span></td>
+            <td class="td-mono">TSXV</td>
+            <td class="td-mono">03 Mar 26</td>
+            <td class="td-mono">17 Mar 26</td>
+            <td class="td-mono">45,455,000</td>
+            <td class="td-mono">$0.22</td>
+            <td class="td-mono">$0.30</td>
+            <td class="td-mono">30 months</td>
+            <td class="td-mono">$10.00M</td>
+            <td class="td-mono">Research Capital</td>
+            <td><span class="status-live">Live</span></td>
+            <td><a href="https://www.sedarplus.ca/csa-party/party/issuer.html?id=0001067" target="_blank" rel="noopener" class="sedar-link">→ View</a></td>
+            <td><a href="mailto:cooper@copperbrief.com?subject=Allocation Request — SCD" class="contact-link intro">Secure Access →</a></td>
+          </tr>
+
+          <!-- Sirios Resources — 02 Mar 2026 -->
+          <tr data-commodity="gold">
+            <td class="td-company">Sirios Resources</td>
+            <td><span class="badge-ticker">SOI</span></td>
+            <td><span class="badge-commodity">Gold</span></td>
+            <td class="td-mono">TSXV</td>
+            <td class="td-mono">02 Mar 26</td>
+            <td class="td-mono">18 Mar 26</td>
+            <td class="td-mono">85,740,740</td>
+            <td class="td-mono">$0.20–$0.27</td>
+            <td class="td-mono">$0.30</td>
+            <td class="td-mono">12 months</td>
+            <td class="td-mono">$20.00M</td>
+            <td class="td-mono">National Bank</td>
+            <td><span class="status-live">Live</span></td>
+            <td><a href="https://www.sedarplus.ca/csa-party/party/issuer.html?id=0000855" target="_blank" rel="noopener" class="sedar-link">→ View</a></td>
+            <td><a href="mailto:cooper@copperbrief.com?subject=Allocation Request — SOI" class="contact-link intro">Secure Access →</a></td>
+          </tr>
+
+          <!-- Verde Agritech — 02 Mar 2026 -->
+          <tr data-commodity="other">
+            <td class="td-company">Verde Agritech</td>
+            <td><span class="badge-ticker">NPK</span></td>
+            <td><span class="badge-commodity">Rare Earths</span></td>
+            <td class="td-mono">TSX</td>
+            <td class="td-mono">02 Mar 26</td>
+            <td class="td-mono">12 Mar 26</td>
+            <td class="td-mono">3,750,000</td>
+            <td class="td-mono">$1.20</td>
+            <td class="td-mono">$1.65</td>
+            <td class="td-mono">30 months</td>
+            <td class="td-mono">$4.50M</td>
+            <td class="td-mono">AGP Canada</td>
+            <td><span class="status-live">Live</span></td>
+            <td><a href="https://www.sedarplus.ca/csa-party/party/issuer.html?id=0000718" target="_blank" rel="noopener" class="sedar-link">→ View</a></td>
+            <td><a href="mailto:cooper@copperbrief.com?subject=Allocation Request — NPK" class="contact-link intro">Secure Access →</a></td>
+          </tr>
+
+          <!-- Group Eleven Resources — 02 Mar 2026 -->
+          <tr data-commodity="other">
+            <td class="td-company">Group Eleven Resources</td>
+            <td><span class="badge-ticker">ZNG</span></td>
+            <td><span class="badge-commodity">Zinc/Lead/Silver</span></td>
+            <td class="td-mono">TSXV</td>
+            <td class="td-mono">02 Mar 26</td>
+            <td class="td-mono">11 Mar 26</td>
+            <td class="td-mono">10,000,000</td>
+            <td class="td-mono">$0.90</td>
+            <td class="td-mono">—</td>
+            <td class="td-mono">—</td>
+            <td class="td-mono">$9.00M</td>
+            <td class="td-mono">ATB Cormark</td>
+            <td><span class="status-live">Live</span></td>
+            <td><a href="https://www.sedarplus.ca/csa-party/party/issuer.html?id=0000957" target="_blank" rel="noopener" class="sedar-link">→ View</a></td>
+            <td><a href="mailto:cooper@copperbrief.com?subject=Allocation Request — ZNG" class="contact-link intro">Secure Access →</a></td>
+          </tr>
+
+          <!-- Excellon Resources — 02 Mar 2026 -->
+          <tr data-commodity="silver">
+            <td class="td-company">Excellon Resources</td>
+            <td><span class="badge-ticker">EXN</span></td>
+            <td><span class="badge-commodity">Silver/Lead/Zinc</span></td>
+            <td class="td-mono">TSXV</td>
+            <td class="td-mono">02 Mar 26</td>
+            <td class="td-mono">12 Mar 26</td>
+            <td class="td-mono">16,666,700</td>
+            <td class="td-mono">$0.60</td>
+            <td class="td-mono">—</td>
+            <td class="td-mono">—</td>
+            <td class="td-mono">$10.00M</td>
+            <td class="td-mono">ATB Capital</td>
+            <td><span class="status-live">Live</span></td>
+            <td><a href="https://www.sedarplus.ca/csa-party/party/issuer.html?id=0000023" target="_blank" rel="noopener" class="sedar-link">→ View</a></td>
+            <td><a href="mailto:cooper@copperbrief.com?subject=Allocation Request — EXN" class="contact-link intro">Secure Access →</a></td>
+          </tr>
+
+          <!-- Brunswick Exploration — 25 Feb 2026 -->
+          <tr data-commodity="lithium">
+            <td class="td-company">Brunswick Exploration</td>
+            <td><span class="badge-ticker">BRW</span></td>
+            <td><span class="badge-commodity">Lithium</span></td>
+            <td class="td-mono">TSXV</td>
+            <td class="td-mono">25 Feb 26</td>
+            <td class="td-mono">18 Mar 26</td>
+            <td class="td-mono">16,000,000</td>
+            <td class="td-mono">$0.25</td>
+            <td class="td-mono">$0.35</td>
+            <td class="td-mono">36 months</td>
+            <td class="td-mono">$4.00M</td>
+            <td class="td-mono">Non-brokered</td>
+            <td><span class="status-live">Live</span></td>
+            <td><a href="https://www.sedarplus.ca/csa-party/party/issuer.html?id=0001189" target="_blank" rel="noopener" class="sedar-link">→ View</a></td>
+            <td><a href="mailto:cooper@copperbrief.com?subject=Allocation Request — BRW" class="contact-link intro">Secure Access →</a></td>
+          </tr>
+
+          <!-- Red Canyon Resources — 25 Feb 2026 -->
+          <tr data-commodity="copper">
+            <td class="td-company">Red Canyon Resources</td>
+            <td><span class="badge-ticker">REDC</span></td>
+            <td><span class="badge-commodity">Copper/Gold</span></td>
+            <td class="td-mono">CSE</td>
+            <td class="td-mono">25 Feb 26</td>
+            <td class="td-mono">20 Mar 26</td>
+            <td class="td-mono">10,000,000</td>
+            <td class="td-mono">$0.20</td>
+            <td class="td-mono">—</td>
+            <td class="td-mono">—</td>
+            <td class="td-mono">$2.00M</td>
+            <td class="td-mono">Non-brokered</td>
+            <td><span class="status-live">Live</span></td>
+            <td><a href="https://www.sedarplus.ca/csa-party/party/issuer.html?id=0001456" target="_blank" rel="noopener" class="sedar-link">→ View</a></td>
+            <td><a href="mailto:cooper@copperbrief.com?subject=Allocation Request — REDC" class="contact-link intro">Secure Access →</a></td>
+          </tr>
+
+        </tbody>
+      </table>
+
+      <div class="empty-state" id="emptyState">
+        <p>No filings match this filter.</p>
+      </div>
+    </div>
+
+    <div class="table-footnote">
+      <span>Data sourced from SEDAR+ offering documents. Always verify directly before making any decision.</span>
+      <span id="rowCount">1 filing tracked</span>
+    </div>
+  </div>
+
+  <div class="explainer">
+    <button class="explainer-toggle" onclick="toggleExplainer(this)">
+      <span class="explainer-label">How to read this table</span>
+      <span class="explainer-arrow">▾</span>
+    </button>
+    <dl class="explainer-body" id="explainerBody">
+      <div class="explainer-term">
+        <dt>LIFE Exemption</dt>
+        <dd>Listed Issuer Financing Exemption — a Canadian regulation allowing listed companies to raise capital faster via a public offering document without a full prospectus.</dd>
+      </div>
+      <div class="explainer-term">
+        <dt>Price / Unit</dt>
+        <dd>The price at which you subscribe to receive shares (and warrants if included). Set by the company at time of offering.</dd>
+      </div>
+      <div class="explainer-term">
+        <dt>Warrant Strike</dt>
+        <dd>The price at which you can buy additional shares using your warrant. Typically set 30–50% above the offering price.</dd>
+      </div>
+      <div class="explainer-term">
+        <dt>Warrant Expiry</dt>
+        <dd>Warrants expire worthless if not exercised by this date. Junior mining warrants typically run 18–24 months.</dd>
+      </div>
+      <div class="explainer-term">
+        <dt>Lead Broker</dt>
+        <dd>The investment dealer running the placement. Contact them directly to subscribe — or use the Secure Access link to request an introduction through Copper Brief.</dd>
+      </div>
+      <div class="explainer-term">
+        <dt>Request Intro</dt>
+        <dd>Use this to signal interest via Copper Brief. We'll forward your details to the IR team or broker where appropriate.</dd>
+      </div>
+    </dl>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-logo">COPPER<span class="accent">.</span>BRIEF</div>
+  <ul class="footer-links">
+    <li><a href="tracker.html">LIFE Tracker</a></li>
+    <li><a href="warrants.html">Warrants</a></li>
+    <li><a href="warrants.html">Warrants</a></li>
+    <li><a href="interviews.html">Interviews</a></li>
+    <li><a href="learn.html">Learn</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Copper Brief</div>
+</footer>
+
+<script>
+  function filterTable(btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    const rows = document.querySelectorAll('#trackerBody tr');
+    let visible = 0;
+    rows.forEach(row => {
+      const match = filter === 'all' || row.dataset.commodity === filter;
+      row.classList.toggle('hidden', !match);
+      if (match) visible++;
+    });
+    document.getElementById('emptyState').classList.toggle('visible', visible === 0);
+    document.getElementById('rowCount').textContent =
+      visible === 1 ? '1 filing tracked' : `${visible} filings tracked`;
+  }
+
+  function toggleExplainer(btn) {
+    btn.classList.toggle('open');
+    document.getElementById('explainerBody').classList.toggle('open');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const rows = document.querySelectorAll('#trackerBody tr').length;
+    document.getElementById('rowCount').textContent =
+      rows === 1 ? '1 filing tracked' : `${rows} filings tracked`;
+  });
+</script>
+</body>
+</html>

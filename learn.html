@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>What is a LIFE Financing? — Copper Brief</title>
+  <meta name="description" content="A plain-English guide to the Listed Issuer Financing Exemption — what it is, who can invest, how warrants work, and why TSXV retail investors should be paying attention."/>
+  <link rel="stylesheet" href="shared.css"/>
+  <style>
+    .page-wrap { padding-top: 60px; }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding: 60px 48px 52px;
+      border-bottom: 1px solid var(--border);
+      max-width: 760px;
+    }
+    .page-header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 6vw, 72px);
+      letter-spacing: 1px;
+      line-height: 0.92;
+      margin: 10px 0 20px;
+    }
+    .page-header .lede {
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.9;
+      max-width: 600px;
+    }
+
+    /* QUICK FACTS BAR */
+    .quick-facts {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-bottom: 1px solid var(--border);
+    }
+    .quick-fact {
+      padding: 28px 32px;
+      border-right: 1px solid var(--border);
+    }
+    .quick-fact:last-child { border-right: none; }
+    .quick-fact-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px;
+      letter-spacing: 1px;
+      color: var(--copper);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .quick-fact-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* CONTENT */
+    .learn-body {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .learn-main {
+      padding: 56px 56px 72px 48px;
+      border-right: 1px solid var(--border);
+    }
+
+    .learn-section {
+      margin-bottom: 64px;
+      padding-bottom: 64px;
+      border-bottom: 1px solid var(--border);
+    }
+    .learn-section:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .learn-section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .learn-section h2 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: 20px;
+      line-height: 1.3;
+    }
+
+    .learn-section p {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.95;
+      margin-bottom: 16px;
+    }
+    .learn-section p:last-child { margin-bottom: 0; }
+    .learn-section p strong { color: var(--white); font-weight: 500; }
+
+    /* COMPARISON TABLE */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 24px;
+    }
+    .compare-table th {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: left;
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      font-weight: 400;
+    }
+    .compare-table th:first-child { padding-left: 0; }
+    .compare-table td {
+      font-size: 13px;
+      color: var(--text);
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.6;
+      vertical-align: top;
+    }
+    .compare-table td:first-child { padding-left: 0; color: var(--white); font-weight: 500; }
+    .compare-table td strong { color: var(--green); font-weight: 500; }
+    .compare-table td.neg { color: var(--muted); }
+
+    /* WARRANT EXPLAINER */
+    .warrant-example {
+      margin-top: 24px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .warrant-example-header {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--copper);
+    }
+    .warrant-example-body {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .warrant-step {
+      padding: 16px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+    }
+    .warrant-step-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--copper);
+      margin-bottom: 8px;
+    }
+    .warrant-step-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+    .warrant-step-body {
+      font-size: 12px;
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* CHECKLIST */
+    .checklist {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .checklist-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .checklist-icon {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--copper);
+      flex-shrink: 0;
+      margin-top: 3px;
+      letter-spacing: 1px;
+    }
+    .checklist-item strong { color: var(--white); font-weight: 500; }
+
+    /* SIDEBAR */
+    .learn-sidebar {
+      padding: 40px 32px;
+      position: sticky;
+      top: 60px;
+      align-self: start;
+    }
+
+    .sidebar-block {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-block:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .sidebar-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .sidebar-block p {
+      font-size: 12px;
+      color: var(--text);
+      line-height: 1.85;
+      margin-bottom: 12px;
+    }
+    .sidebar-block p:last-child { margin-bottom: 0; }
+    .sidebar-block p strong { color: var(--white); font-weight: 500; }
+
+    .glossary-term {
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .glossary-term:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .glossary-term dt {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 5px;
+    }
+    .glossary-term dd {
+      font-size: 12px;
+      color: var(--text);
+      line-height: 1.75;
+    }
+
+    /* CTA BAND */
+    .cta-band {
+      padding: 56px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      flex-wrap: wrap;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+    .cta-band-copy h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .cta-band-copy p {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.7;
+      max-width: 460px;
+    }
+    .cta-band-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 900px) {
+      .learn-body { grid-template-columns: 1fr; }
+      .learn-sidebar { position: static; border-top: 1px solid var(--border); padding: 40px 20px; }
+      .learn-main { padding: 40px 20px 56px; border-right: none; }
+      .quick-facts { grid-template-columns: 1fr 1fr; }
+      .quick-fact:nth-child(2) { border-right: none; }
+      .quick-fact:nth-child(3) { border-top: 1px solid var(--border); }
+      .warrant-example-body { grid-template-columns: 1fr; }
+      .page-header { padding: 44px 20px 40px; }
+      .cta-band { padding: 40px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">COPPER<span class="accent">.</span>BRIEF</a>
+  <ul class="nav-links">
+    <li><a href="tracker.html">LIFE Tracker</a></li>
+    <li><a href="warrants.html">Warrants</a></li>
+    <li><a href="warrants.html">Warrants</a></li>
+    <li><a href="interviews.html">Interviews</a></li>
+    <li><a href="learn.html" class="active">Learn</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="about.html" class="nav-about">About</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <div class="page-header">
+    <span class="section-label">Education — Listed Issuer Financing Exemption</span>
+    <h1>WHAT IS A<br>LIFE FINANCING?</h1>
+    <p class="lede">A plain-English guide to Canada's most retail-friendly capital markets tool — and why every TSXV investor should know how it works.</p>
+  </div>
+
+  <!-- QUICK FACTS -->
+  <div class="quick-facts">
+    <div class="quick-fact">
+      <div class="quick-fact-value">No hold</div>
+      <div class="quick-fact-label">Shares freely tradeable<br>on close — no lock-up</div>
+    </div>
+    <div class="quick-fact">
+      <div class="quick-fact-value">Retail</div>
+      <div class="quick-fact-label">Open to all investors —<br>no accredited requirement</div>
+    </div>
+    <div class="quick-fact">
+      <div class="quick-fact-value">≤$25M</div>
+      <div class="quick-fact-label">Maximum raise per issuer<br>per 12-month period</div>
+    </div>
+    <div class="quick-fact">
+      <div class="quick-fact-value">2–3 wks</div>
+      <div class="quick-fact-label">Typical offering window<br>from announce to close</div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT + SIDEBAR -->
+  <div class="learn-body">
+
+    <div class="learn-main">
+
+      <!-- SECTION 1 -->
+      <div class="learn-section">
+        <span class="learn-section-label">01 — The basics</span>
+        <h2>A faster, simpler way for listed companies to raise from the public</h2>
+        <p>The Listed Issuer Financing Exemption — LIFE — is a Canadian securities regulation introduced to help smaller listed companies raise capital more efficiently. Instead of filing a full prospectus (which can take months and cost hundreds of thousands of dollars in legal and accounting fees), a company files a short offering document directly with regulators and can begin selling shares to the public within days.</p>
+        <p>The key word is <strong>public</strong>. Traditional private placements — the other common way junior miners raise money — are restricted to accredited investors (high-net-worth individuals, institutions). LIFE filings are open to <strong>any Canadian investor with a brokerage account</strong>. You don't need to meet any wealth or income threshold to participate.</p>
+        <p>For companies, it's a streamlined path to capital. For retail investors, it's rare access to the same deal terms that institutions normally get first.</p>
+      </div>
+
+      <!-- SECTION 2 -->
+      <div class="learn-section">
+        <span class="learn-section-label">02 — Hold period &amp; liquidity</span>
+        <h2>No hold period — shares are freely tradeable from day one</h2>
+        <p>This is arguably the most important feature. When institutions subscribe to a standard private placement, they're subject to a <strong>four-month hold period</strong> — they cannot sell their shares for four months after closing. This is to protect the market from large blocks of discounted stock being immediately dumped.</p>
+        <p>LIFE financings work differently. Because the offering is made under a prospectus exemption designed for public distribution, <strong>shares issued to Canadian investors carry no hold period at all</strong>. The moment the deal closes, you can sell your shares on the open market like any other position.</p>
+        <p>This means LIFE shares are worth more than equivalent private placement shares, all else being equal — because there's no lock-up risk. It also means the market impact of a LIFE closing is more immediate, which is worth tracking.</p>
+      </div>
+
+      <!-- SECTION 3 — Warrants -->
+      <div class="learn-section">
+        <span class="learn-section-label">03 — Warrants</span>
+        <h2>Many deals are structured as units — shares plus warrants</h2>
+        <p>A large portion of LIFE filings aren't just shares — they're <strong>units</strong>. A unit typically consists of one share and a fraction of a warrant (commonly one-half warrant, meaning you need two units to receive one whole warrant). The warrant gives you the right — but not the obligation — to buy additional shares at a fixed price (the <strong>warrant strike price</strong>) at any time within the warrant's lifespan.</p>
+        <p>Warrants in junior mining deals typically run 12–36 months and are struck 20–50% above the offering price. They have no cost at subscription — they're free upside embedded in the deal structure.</p>
+
+        <div class="warrant-example">
+          <div class="warrant-example-header">Example — Unit Deal Walkthrough</div>
+          <div class="warrant-example-body">
+            <div class="warrant-step">
+              <div class="warrant-step-num">Step 01</div>
+              <div class="warrant-step-title">You subscribe to 10,000 units at $0.25</div>
+              <div class="warrant-step-body">You pay $2,500. Each unit = 1 share + ½ warrant. You receive 10,000 shares and 5,000 warrants. Warrant strike: $0.35, expires 24 months from close.</div>
+            </div>
+            <div class="warrant-step">
+              <div class="warrant-step-num">Step 02</div>
+              <div class="warrant-step-title">Deal closes. No hold period.</div>
+              <div class="warrant-step-body">Shares are immediately tradeable. The stock is currently at $0.25 (offering price). Your 5,000 warrants are out-of-the-money but valid for 24 months.</div>
+            </div>
+            <div class="warrant-step">
+              <div class="warrant-step-num">Step 03</div>
+              <div class="warrant-step-title">12 months later — stock is at $0.55</div>
+              <div class="warrant-step-body">Your warrants are now in-the-money ($0.55 vs $0.35 strike). You exercise: pay $0.35 × 5,000 = $1,750 to receive 5,000 more shares, each immediately worth $0.55.</div>
+            </div>
+            <div class="warrant-step">
+              <div class="warrant-step-num">Result</div>
+              <div class="warrant-step-title">Total return on $2,500 invested</div>
+              <div class="warrant-step-body">10,000 shares × $0.55 = $5,500. Plus 5,000 warrant shares × ($0.55 − $0.35) = $1,000 gain. Total value: $6,500 on $4,250 deployed. The warrant added material upside at zero initial cost.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 4 -->
+      <div class="learn-section">
+        <span class="learn-section-label">04 — How to participate</span>
+        <h2>How retail investors actually subscribe</h2>
+        <p>LIFE financings are distributed through registered investment dealers — the brokers and capital markets firms that manage the book for the company. To participate, you typically need to:</p>
+        <div class="checklist">
+          <div class="checklist-item">
+            <span class="checklist-icon">→</span>
+            <span><strong>Find the deal</strong> — LIFE filings are posted publicly on SEDAR+ (Canada's regulatory disclosure system) and announced via news release. Copper Brief tracks every filing weekly so you don't have to monitor SEDAR+ manually.</span>
+          </div>
+          <div class="checklist-item">
+            <span class="checklist-icon">→</span>
+            <span><strong>Contact the lead broker</strong> — The offering document names the lead underwriter or agent. Call or email their institutional sales desk and express interest. Having an existing relationship with a dealer helps, but isn't always required.</span>
+          </div>
+          <div class="checklist-item">
+            <span class="checklist-icon">→</span>
+            <span><strong>Request an intro</strong> — For deals you find through Copper Brief, use the Request Intro link on the tracker. We'll forward your details to the right contact at the company or broker.</span>
+          </div>
+          <div class="checklist-item">
+            <span class="checklist-icon">→</span>
+            <span><strong>Subscribe before close</strong> — Most LIFE offerings close 2–4 weeks after the offering document date. Allocations are typically first-come-first-served or at the broker's discretion.</span>
+          </div>
+          <div class="checklist-item">
+            <span class="checklist-icon">→</span>
+            <span><strong>Receive your shares</strong> — On closing day, shares are issued to your brokerage account. For Canadian residents, they are immediately freely tradeable with no hold period.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 5 -->
+      <div class="learn-section">
+        <span class="learn-section-label">05 — LIFE vs standard private placement</span>
+        <h2>How LIFE compares to a traditional private placement</h2>
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>LIFE Financing</th>
+              <th>Standard PP</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Who can invest</td>
+              <td><strong>Any Canadian investor</strong></td>
+              <td class="neg">Accredited only</td>
+            </tr>
+            <tr>
+              <td>Hold period</td>
+              <td><strong>None for Canadian retail</strong></td>
+              <td class="neg">4 months + 1 day</td>
+            </tr>
+            <tr>
+              <td>Offering document</td>
+              <td><strong>Short LIFE document (~8 pages)</strong></td>
+              <td class="neg">Full prospectus (months)</td>
+            </tr>
+            <tr>
+              <td>Max raise</td>
+              <td>$25M per 12-month period</td>
+              <td>No hard cap</td>
+            </tr>
+            <tr>
+              <td>Transparency</td>
+              <td><strong>Public on SEDAR+ day of filing</strong></td>
+              <td class="neg">Limited public disclosure</td>
+            </tr>
+            <tr>
+              <td>Speed</td>
+              <td><strong>Closes in 2–4 weeks</strong></td>
+              <td>Varies, often faster for small deals</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- SECTION 6 -->
+      <div class="learn-section">
+        <span class="learn-section-label">06 — What to look for</span>
+        <h2>Reading a LIFE deal: what actually matters</h2>
+        <p>Not all LIFE financings are equal. Here's what to focus on when evaluating a filing:</p>
+        <div class="checklist">
+          <div class="checklist-item">
+            <span class="checklist-icon">→</span>
+            <span><strong>Discount to market</strong> — Compare the offering price to the last closing price. A deep discount signals either a motivated seller or a deal that's struggling to fill. A small or no discount on a bought deal signals strong institutional conviction.</span>
+          </div>
+          <div class="checklist-item">
+            <span class="checklist-icon">→</span>
+            <span><strong>Warrant structure</strong> — Full warrants are better than half warrants. A longer term (36 months) gives more time for the stock to move. A strike close to the offering price is more likely to be exercised.</span>
+          </div>
+          <div class="checklist-item">
+            <span class="checklist-icon">→</span>
+            <span><strong>Lead broker quality</strong> — Bought deals (where the broker underwrites the full amount) signal stronger conviction than best-efforts (where the broker tries to fill but isn't committed). Tier-1 dealers like BMO, National Bank or CIBC versus smaller regional desks can indicate institutional interest.</span>
+          </div>
+          <div class="checklist-item">
+            <span class="checklist-icon">→</span>
+            <span><strong>Use of proceeds</strong> — Look at what the money is for. Exploration drilling is a catalyst; working capital alone is a warning sign. The best LIFE deals fund a specific, near-term event that could move the share price.</span>
+          </div>
+          <div class="checklist-item">
+            <span class="checklist-icon">→</span>
+            <span><strong>Oversubscription language</strong> — If the offering document includes an overallotment option (greenshoe), it means demand is strong enough that the company pre-authorised selling more than originally planned.</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end learn-main -->
+
+    <!-- SIDEBAR -->
+    <aside class="learn-sidebar">
+
+      <div class="sidebar-block">
+        <span class="sidebar-label">Quick Reference</span>
+        <dl>
+          <div class="glossary-term">
+            <dt>LIFE</dt>
+            <dd>Listed Issuer Financing Exemption — the Canadian regulation enabling public offerings without a full prospectus.</dd>
+          </div>
+          <div class="glossary-term">
+            <dt>SEDAR+</dt>
+            <dd>System for Electronic Document Analysis and Retrieval. Canada's public database for all regulatory filings.</dd>
+          </div>
+          <div class="glossary-term">
+            <dt>Warrant</dt>
+            <dd>The right to buy shares at a fixed price (strike) before expiry. Included free in many unit deals.</dd>
+          </div>
+          <div class="glossary-term">
+            <dt>Hold Period</dt>
+            <dd>The lock-up period after which shares can be traded. LIFE shares issued to Canadian retail investors have no hold period.</dd>
+          </div>
+          <div class="glossary-term">
+            <dt>Bought Deal</dt>
+            <dd>A deal where the broker commits to buying the entire offering, taking on the risk. Signals strong demand.</dd>
+          </div>
+          <div class="glossary-term">
+            <dt>Best Efforts</dt>
+            <dd>The broker tries to sell the offering but doesn't guarantee it. More common in smaller or speculative raises.</dd>
+          </div>
+          <div class="glossary-term">
+            <dt>Unit</dt>
+            <dd>A bundle of one share plus a fraction of a warrant. The most common LIFE deal structure.</dd>
+          </div>
+          <div class="glossary-term">
+            <dt>President's List</dt>
+            <dd>Investors brought directly by the company, often paying a reduced broker commission (2–3% vs 6%).</dd>
+          </div>
+          <div class="glossary-term">
+            <dt>Greenshoe / Overallotment</dt>
+            <dd>An option for the broker to sell additional shares above the original offering size if demand is strong.</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="sidebar-block">
+        <span class="sidebar-label">Copper Brief tracks</span>
+        <p>Every LIFE filing by TSXV-listed mining companies — pulled weekly from SEDAR+. Offering price, warrant terms, lead broker, closing date and status in one table.</p>
+        <p style="margin-top: 14px;"><a href="tracker.html" class="btn-primary" style="font-size:10px; padding:10px 20px; display:inline-block;">View the tracker →</a></p>
+      </div>
+
+      <div class="sidebar-block">
+        <span class="sidebar-label">Regulation reference</span>
+        <p>The LIFE exemption sits in <strong>National Instrument 45-106, Part 5A</strong>, amended by Coordinated Blanket Order 45-935. The maximum raise is $25M per 12 months per issuer.</p>
+        <p>For the full text, search "NI 45-106 Part 5A" on <a href="https://www.osc.ca" target="_blank" rel="noopener" style="color:var(--copper);">osc.ca</a>.</p>
+      </div>
+
+    </aside>
+
+  </div><!-- end learn-body -->
+
+  <!-- CTA BAND -->
+  <div class="cta-band">
+    <div class="cta-band-copy">
+      <h3>See Current LIFE Filings</h3>
+      <p>Every open offering tracked in one place — offering date, price, warrant terms, lead broker, and a direct line to request an introduction.</p>
+    </div>
+    <div class="cta-band-actions">
+      <a href="tracker.html" class="btn-primary">LIFE Tracker →</a>
+      <a href="interviews.html" class="btn-outline">CEO Interviews →</a>
+    </div>
+  </div>
+
+</div><!-- end page-wrap -->
+
+<footer>
+  <div class="footer-logo">COPPER<span class="accent">.</span>BRIEF</div>
+  <ul class="footer-links">
+    <li><a href="tracker.html">LIFE Tracker</a></li>
+    <li><a href="warrants.html">Warrants</a></li>
+    <li><a href="warrants.html">Warrants</a></li>
+    <li><a href="interviews.html">Interviews</a></li>
+    <li><a href="learn.html">Learn</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Copper Brief</div>
+</footer>
+
+</body>
+</html>

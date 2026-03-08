@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About — Copper Brief | TSXV LIFE Financing Portal</title>
+  <meta name="description" content="About Copper Brief — independent LIFE financing intelligence for TSXV mining investors."/>
+  <link rel="stylesheet" href="shared.css"/>
+  <script src="https://asset-tidycal.b-cdn.net/js/embed.js" async></script>
+  <style>
+    .page-wrap { padding-top: 60px; }
+
+    /* ABOUT HERO */
+    .about-hero {
+      padding: 60px 48px 56px;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .about-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(48px, 6vw, 76px);
+      letter-spacing: 1px;
+      line-height: 0.9;
+      margin: 8px 0 28px;
+    }
+
+    .about-body p {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.85;
+      margin-bottom: 16px;
+    }
+    .about-body p strong { color: var(--white); font-weight: 500; }
+
+    /* STATS */
+    .about-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-top: 4px;
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+    }
+
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .stat-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      color: var(--copper);
+      letter-spacing: 1px;
+    }
+
+    /* WHAT WE COVER */
+    .covers-section {
+      padding: 56px 48px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .covers-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(36px, 4vw, 52px);
+      letter-spacing: 1px;
+      margin: 8px 0 36px;
+    }
+
+    .covers-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+    }
+
+    .cover-item {
+      padding: 24px 28px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+    }
+
+    .cover-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 38px;
+      color: var(--copper);
+      opacity: 0.22;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .cover-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .cover-desc {
+      font-size: 12px;
+      color: var(--text);
+      line-height: 1.75;
+    }
+
+    /* BOOKING SECTION */
+    .book-section {
+      padding: 60px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .book-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 72px;
+      align-items: start;
+    }
+
+    .book-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 5vw, 60px);
+      letter-spacing: 1px;
+      line-height: 0.9;
+      margin: 8px 0 20px;
+    }
+
+    .book-intro {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.8;
+      margin-bottom: 32px;
+    }
+
+    .book-options {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .book-option {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      text-decoration: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .book-option:hover {
+      border-color: var(--copper-line);
+      background: var(--copper-glow);
+    }
+
+    .book-option-icon {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px;
+      color: var(--copper);
+      opacity: 0.5;
+      flex-shrink: 0;
+      width: 28px;
+      line-height: 1;
+    }
+
+    .book-option-text {}
+    .book-option-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: 2px;
+    }
+    .book-option-desc {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .book-option-arrow {
+      margin-left: auto;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--copper);
+      opacity: 0.5;
+    }
+
+    /* TIDYCAL EMBED */
+    .tidycal-wrap {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      min-height: 500px;
+      overflow: hidden;
+    }
+
+    .tidycal-wrap .tidycal-embed {
+      min-height: 500px;
+    }
+
+    @media (max-width: 900px) {
+      .about-hero    { grid-template-columns: 1fr; gap: 40px; padding: 40px 20px; }
+      .covers-section { padding: 40px 20px; }
+      .covers-grid   { grid-template-columns: 1fr; }
+      .book-section  { padding: 48px 20px; }
+      .book-layout   { grid-template-columns: 1fr; gap: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">COPPER<span class="accent">.</span>BRIEF</a>
+  <ul class="nav-links">
+    <li><a href="tracker.html">LIFE Tracker</a></li>
+    <li><a href="warrants.html">Warrants</a></li>
+    <li><a href="warrants.html">Warrants</a></li>
+    <li><a href="interviews.html">Interviews</a></li>
+    <li><a href="learn.html">Learn</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="about.html" class="nav-about active">About</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- ABOUT HERO -->
+  <div class="about-hero">
+    <div class="about-body">
+      <span class="section-label">About Copper Brief</span>
+      <h1 class="about-title">BUILT FOR<br>DEAL FLOW.</h1>
+      <p>
+        <strong>Copper Brief is built by Cooper John</strong> — a junior mining capital markets researcher and media operator focused on the TSXV. Copper Brief is Canada's only dedicated LIFE financing portal, combining real-time deal tracking with CEO interviews and company research.
+      </p>
+      <p>
+        The LIFE tracker exists because institutional-grade deal data should be accessible to all investors, not just those with Bloomberg terminals. The video content exists because the most useful conversations happen when the interviewer understands warrant terms, dilution mechanics, and what a LIFE offering document actually says.
+      </p>
+      <p>
+        <strong>Every data point is sourced directly from SEDAR+ offering documents.</strong> Every interview is conducted with a focus on capital structure and catalysts — not talking points.
+      </p>
+      <p style="margin-top: 16px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="mailto:cooper@minersmedia.com" class="btn-primary" style="font-size:10px; padding:11px 20px;">cooper@minersmedia.com</a>
+        <a href="https://www.linkedin.com/in/cooper-john/" target="_blank" rel="noopener" class="btn-outline">Connect on LinkedIn →</a>
+      </p>
+    </div>
+
+    <div class="about-stats">
+      <div class="stat-row">
+        <span class="stat-label">Coverage</span>
+        <span class="stat-value">TSXV / CSE</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Focus</span>
+        <span class="stat-value">LIFE Financings</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Data Source</span>
+        <span class="stat-value">SEDAR+</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Tracker Updated</span>
+        <span class="stat-value">Daily</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Videos Published</span>
+        <span class="stat-value">5</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT WE COVER -->
+  <div class="covers-section">
+    <span class="section-label">Coverage</span>
+    <h2 class="covers-title">WHAT COPPER BRIEF TRACKS</h2>
+    <div class="covers-grid">
+      <div class="cover-item">
+        <div class="cover-num">01</div>
+        <div class="cover-title">LIFE Financing Tracker</div>
+        <p class="cover-desc">Every Listed Issuer Financing Exemption filed on SEDAR+ by TSXV-listed mining companies. Offering date, price per unit, warrant terms, lead broker, and direct link to the filing.</p>
+      </div>
+      <div class="cover-item">
+        <div class="cover-num">02</div>
+        <div class="cover-title">Warrant Terms</div>
+        <p class="cover-desc">Strike price, expiry date, and whether warrants are included in the offering. Tracked across all active LIFE deals so you can assess the opportunity before the offering closes.</p>
+      </div>
+      <div class="cover-item">
+        <div class="cover-num">03</div>
+        <div class="cover-title">CEO Interviews</div>
+        <p class="cover-desc">Long-form conversations with junior mining executives. Capital structure, project fundamentals, upcoming catalysts. Published on YouTube and archived here.</p>
+      </div>
+      <div class="cover-item">
+        <div class="cover-num">04</div>
+        <div class="cover-title">Deal Flow Access</div>
+        <p class="cover-desc">Use the Secure Access feature on the tracker to register interest in active LIFE offerings. Copper Brief facilitates direct introductions to the lead broker or IR team managing each deal.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOOKING SECTION -->
+  <div class="book-section" id="book">
+    <div class="book-layout">
+
+      <!-- LEFT -->
+      <div>
+        <span class="section-label">Get in Touch</span>
+        <h2 class="book-title">GET IN<br>TOUCH.</h2>
+        <p class="book-intro">
+          Whether you're a mining company looking to be featured, an investor wanting deal access, or a broker seeking distribution — reach out directly. For interview bookings, select a time using the scheduler.
+        </p>
+
+        <div class="book-options">
+          <a href="https://tidycal.com/oremedia/booking" target="_blank" rel="noopener" class="book-option">
+            <div class="book-option-icon">→</div>
+            <div class="book-option-text">
+              <div class="book-option-title">Book via Calendar</div>
+              <div class="book-option-desc">Select a time directly using the scheduler</div>
+            </div>
+            <span class="book-option-arrow">↗</span>
+          </a>
+          <a href="mailto:cooper@minersmedia.com" class="book-option">
+            <div class="book-option-icon">@</div>
+            <div class="book-option-text">
+              <div class="book-option-title">Email Directly</div>
+              <div class="book-option-desc">cooper@minersmedia.com</div>
+            </div>
+            <span class="book-option-arrow">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT — TIDYCAL EMBED -->
+      <div>
+        <span class="section-label">Select a Time</span>
+        <div class="tidycal-wrap">
+          <!--
+            TidyCal embed — replace the data-path below with your actual TidyCal path.
+            Format: your-username/your-event-slug
+            The script is loaded in the <head> via async.
+          -->
+          <div
+            class="tidycal-embed"
+            data-path="oremedia/booking">
+          </div>
+        </div>
+        <p style="margin-top:10px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1px; color:var(--muted);">
+          Or email: <a href="mailto:cooper@minersmedia.com" style="color:var(--copper); text-decoration:none;">cooper@minersmedia.com →</a>
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-logo">COPPER<span class="accent">.</span>BRIEF</div>
+  <ul class="footer-links">
+    <li><a href="tracker.html">LIFE Tracker</a></li>
+    <li><a href="warrants.html">Warrants</a></li>
+    <li><a href="warrants.html">Warrants</a></li>
+    <li><a href="interviews.html">Interviews</a></li>
+    <li><a href="learn.html">Learn</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Copper Brief</div>
+</footer>
+
+</body>
+</html>
